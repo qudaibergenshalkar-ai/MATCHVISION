@@ -70,5 +70,22 @@ footer{text-align:center;color:#718198;padding:30px;border-top:1px solid #1c2b3d
   </div>
 </main>
 <footer>© 2026 MATCHVISION. See • Analyze • Predict.</footer>
+
+<!-- MATCHVISION AI ENGINE -->
+<script>
+const MATCHVISION_AI = {
+    name: "MATCHVISION",
+    version: "1.0",
+    status: "active",
+
+    predict(home, away) {
+        return {
+            homeTeam: home,
+            awayTeam: away,
+            message: "AI Match Analysis іске қосылды!"
+        };
+    }
+};
+</script>
 </body>
 </html>
