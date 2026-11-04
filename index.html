@@ -6,86 +6,343 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#07111f">
 <title>MATCHVISION — AI Football Analytics</title>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#07111f;color:#f4f7fb;font-family:Arial,sans-serif}
-header{padding:20px 6%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1c2b3d}
+header{padding:20px 6%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1c2b3d;gap:12px;flex-wrap:wrap}
 .logo{font-size:23px;font-weight:900;letter-spacing:1px}
 .logo span{color:#a3ff36}
-nav a{color:#c5d0dc;text-decoration:none;margin-left:15px;font-size:13px}
+nav{display:flex;gap:15px;flex-wrap:wrap}
+nav a{color:#c5d0dc;text-decoration:none;font-size:13px}
+nav a:hover{color:#a3ff36}
 main{max-width:1100px;margin:auto;padding:35px 6%}
 .hero{text-align:center;padding:40px 0}
 .tag{color:#a3ff36;letter-spacing:3px;font-size:12px}
 h1{font-size:clamp(35px,8vw,60px);margin:18px 0}
 h1 span{color:#a3ff36}
 .sub{color:#aab8c8;line-height:1.7;max-width:550px;margin:0 auto}
-.btn{display:inline-block;background:#a3ff36;color:#07111f;padding:14px 24px;border-radius:9px;text-decoration:none;font-weight:bold;margin-top:25px}
+.btn{display:inline-block;background:#a3ff36;color:#07111f;padding:14px 24px;border-radius:9px;text-decoration:none;font-weight:bold;margin-top:25px;border:0;cursor:pointer}
 .section-title{margin:35px 0 18px;font-size:22px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
 .card{background:#101e30;border:1px solid #26374b;border-radius:14px;padding:20px}
 .card h3{margin-top:0}
 .muted{color:#9baabd;font-size:13px;line-height:1.6}
 .value{font-size:25px;color:#a3ff36;font-weight:bold}
-.match{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.feature{cursor:pointer;transition:.2s}
+.feature:hover{border-color:#a3ff36;transform:translateY(-3px)}
+.open-label{color:#a3ff36;font-size:12px;margin-top:15px}
 footer{text-align:center;color:#718198;padding:30px;border-top:1px solid #1c2b3d;margin-top:45px;font-size:12px}
+
+/* ANALYSIS WINDOWS */
+.panel{display:none;background:#101e30;border:1px solid #34475e;border-radius:16px;padding:22px;margin-top:25px}
+.panel.active{display:block}
+.panel h2{color:#a3ff36}
+.close{float:right;background:#26374b;color:white;border:0;padding:9px 13px;border-radius:7px;cursor:pointer}
+.field{margin:14px 0}
+.field label{display:block;color:#c5d0dc;font-size:13px;margin-bottom:7px}
+.field input,.field select{width:100%;padding:13px;background:#07111f;border:1px solid #34475e;border-radius:8px;color:white;font-size:15px}
+.action{background:#a3ff36;color:#07111f;padding:12px 18px;border:0;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:10px}
+.result{display:none;margin-top:20px;padding:16px;background:#07111f;border:1px solid #34475e;border-radius:10px;line-height:1.8}
+.result.show{display:block}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:15px}
+.stat{background:#07111f;padding:14px;border-radius:9px}
+.stat strong{display:block;color:#a3ff36;font-size:22px;margin-top:8px}
+.note{font-size:12px;color:#9baabd;margin-top:15px;line-height:1.6}
+.back{color:#a3ff36;cursor:pointer;background:none;border:0;margin-bottom:10px}
 </style>
 </head>
+
 <body>
+
 <header>
-  <div class="logo">MATCH<span>VISION</span></div>
-  <nav><a href="#home">Басты бет</a><a href="#analysis">Аналитика</a></nav>
+<div class="logo">MATCH<span>VISION</span></div>
+<nav>
+<a href="#home">Басты бет</a>
+<a href="#analysis">Аналитика</a>
+</nav>
 </header>
+
 <main id="home">
-  <section class="hero">
-    <div class="tag">SEE • ANALYZE • PREDICT</div>
-    <h1>Футболды <span>жаңа деңгейде</span> талда</h1>
-    <p class="sub">Жасанды интеллект, футбол статистикасы және терең матч аналитикасы — барлығы бір платформада.</p>
-    <a class="btn" href="#analysis">Аналитиканы көру</a>
-  </section>
 
-  <h2 class="section-title" id="analysis">MATCHVISION мүмкіндіктері</h2>
-  <section class="grid">
-    <div class="card">
-      <h3>🧠 AI Super Analysis</h3>
-      <p class="muted">Матчты терең талдау және болжам жасау.</p>
-    </div>
-    <div class="card">
-      <h3>📊 Advanced Statistics</h3>
-      <p class="muted">xG, xGA, доп иелену және соққылар статистикасы.</p>
-    </div>
-    <div class="card">
-      <h3>⚡ Live Analysis</h3>
-      <p class="muted">Ойын барысындағы өзгерістерді талдау.</p>
-    </div>
-    <div class="card">
-      <h3>🎯 AI Accuracy Center</h3>
-      <p class="muted">Болжамдардың дәлдігін бақылау.</p>
-    </div>
-  </section>
+<section class="hero">
+<div class="tag">SEE • ANALYZE • PREDICT</div>
+<h1>Футболды <span>жаңа деңгейде</span> талда</h1>
+<p class="sub">Жасанды интеллект, футбол статистикасы және терең матч аналитикасы — барлығы бір платформада.</p>
+<a class="btn" href="#analysis">Аналитиканы көру</a>
+</section>
 
-  <h2 class="section-title">Біздің мақсатымыз</h2>
-  <div class="card">
-    <div class="value">Football Intelligence</div>
-    <p class="muted">MATCHVISION — букмекерлік платформа емес. Бұл футболды түсінуге, зерттеуге және деректер негізінде талдауға арналған халықаралық AI экожүйесі.</p>
-  </div>
+<h2 class="section-title" id="analysis">MATCHVISION мүмкіндіктері</h2>
+
+<section class="grid">
+
+<div class="card feature" onclick="openPanel('super')">
+<h3>🧠 AI Super Analysis</h3>
+<p class="muted">Матчты терең талдау және болжам жасау.</p>
+<div class="open-label">Бөлімді ашу →</div>
+</div>
+
+<div class="card feature" onclick="openPanel('stats')">
+<h3>📊 Advanced Statistics</h3>
+<p class="muted">xG, xGA, доп иелену және соққылар статистикасы.</p>
+<div class="open-label">Бөлімді ашу →</div>
+</div>
+
+<div class="card feature" onclick="openPanel('live')">
+<h3>⚡ Live Analysis</h3>
+<p class="muted">Ойын барысындағы өзгерістерді талдау.</p>
+<div class="open-label">Бөлімді ашу →</div>
+</div>
+
+<div class="card feature" onclick="openPanel('accuracy')">
+<h3>🎯 AI Accuracy Center</h3>
+<p class="muted">Болжамдардың дәлдігін бақылау.</p>
+<div class="open-label">Бөлімді ашу →</div>
+</div>
+
+</section>
+
+<!-- AI SUPER ANALYSIS -->
+<section class="panel" id="super">
+<button class="close" onclick="closePanels()">✕ Жабу</button>
+<h2>🧠 AI Super Analysis</h2>
+<p class="muted">Екі команданы енгізіп, матчқа бастапқы талдау жаса.</p>
+
+<div class="field">
+<label>Үй командасы</label>
+<input id="homeTeam" placeholder="Мысалы: Real Madrid">
+</div>
+<div class="field">
+<label>Қонақ командасы</label>
+<input id="awayTeam" placeholder="Мысалы: Barcelona">
+</div>
+<div class="field">
+<label>Үй командасының соңғы 5 матчтағы жеңісі</label>
+<input id="homeWins" type="number" min="0" max="5" value="3">
+</div>
+<div class="field">
+<label>Қонақ командасының соңғы 5 матчтағы жеңісі</label>
+<input id="awayWins" type="number" min="0" max="5" value="2">
+</div>
+
+<button class="action" onclick="analyzeMatch()">Матчты талдау</button>
+<div class="result" id="superResult"></div>
+<p class="note">Бұл бастапқы демонстрациялық модель. Нақты AI болжамы емес.</p>
+</section>
+
+<!-- ADVANCED STATISTICS -->
+<section class="panel" id="stats">
+<button class="close" onclick="closePanels()">✕ Жабу</button>
+<h2>📊 Advanced Statistics</h2>
+<p class="muted">Команда статистикасын енгізіп, көрсеткіштерді есепте.</p>
+
+<div class="field">
+<label>Команда атауы</label>
+<input id="statTeam" placeholder="Команда атауы">
+</div>
+<div class="field">
+<label>xG (күтілетін гол)</label>
+<input id="xg" type="number" min="0" step="0.01" value="1.5">
+</div>
+<div class="field">
+<label>xGA (күтілетін жіберілген гол)</label>
+<input id="xga" type="number" min="0" step="0.01" value="1.1">
+</div>
+<div class="field">
+<label>Доп иелену (%)</label>
+<input id="possession" type="number" min="0" max="100" value="55">
+</div>
+<div class="field">
+<label>Қақпаға соққылар</label>
+<input id="shots" type="number" min="0" value="6">
+</div>
+
+<button class="action" onclick="calculateStats()">Статистиканы есептеу</button>
+<div class="result" id="statsResult"></div>
+</section>
+
+<!-- LIVE ANALYSIS -->
+<section class="panel" id="live">
+<button class="close" onclick="closePanels()">✕ Жабу</button>
+<h2>⚡ Live Match Analysis</h2>
+<p class="muted">Ағымдағы матч көрсеткіштерін енгізіп, ойын жағдайын бағала.</p>
+
+<div class="field">
+<label>Үй командасының голы</label>
+<input id="liveHome" type="number" min="0" value="1">
+</div>
+<div class="field">
+<label>Қонақ командасының голы</label>
+<input id="liveAway" type="number" min="0" value="0">
+</div>
+<div class="field">
+<label>Ойын минуты</label>
+<input id="minute" type="number" min="0" max="120" value="45">
+</div>
+<div class="field">
+<label>Үй командасының соққылары</label>
+<input id="liveShots" type="number" min="0" value="5">
+</div>
+<div class="field">
+<label>Қонақ командасының соққылары</label>
+<input id="awayShots" type="number" min="0" value="3">
+</div>
+
+<button class="action" onclick="analyzeLive()">Live талдау</button>
+<div class="result" id="liveResult"></div>
+<p class="note">Бұл бөлім нақты уақыттағы деректерді автоматты түрде алмайды. Көрсеткіштер қолмен енгізіледі.</p>
+</section>
+
+<!-- ACCURACY CENTER -->
+<section class="panel" id="accuracy">
+<button class="close" onclick="closePanels()">✕ Жабу</button>
+<h2>🎯 AI Accuracy Center</h2>
+<p class="muted">Болжам нәтижелерінің дәлдігін есептеу.</p>
+
+<div class="field">
+<label>Жалпы болжам саны</label>
+<input id="totalPredictions" type="number" min="1" value="10">
+</div>
+<div class="field">
+<label>Дұрыс болжам саны</label>
+<input id="correctPredictions" type="number" min="0" value="7">
+</div>
+
+<button class="action" onclick="calculateAccuracy()">Дәлдікті есептеу</button>
+<div class="result" id="accuracyResult"></div>
+<p class="note">Нәтиже тек өзің енгізген деректерге негізделеді.</p>
+</section>
+
+<h2 class="section-title">Біздің мақсатымыз</h2>
+<div class="card">
+<div class="value">Football Intelligence</div>
+<p class="muted">MATCHVISION — букмекерлік платформа емес. Бұл футболды түсінуге, зерттеуге және деректер негізінде талдауға арналған халықаралық AI экожүйесі.</p>
+</div>
+
 </main>
+
 <footer>© 2026 MATCHVISION. See • Analyze • Predict.</footer>
 
-<!-- MATCHVISION AI ENGINE -->
 <script>
 const MATCHVISION_AI = {
-    name: "MATCHVISION",
-    version: "1.0",
-    status: "active",
-
-    predict(home, away) {
-        return {
-            homeTeam: home,
-            awayTeam: away,
-            message: "AI Match Analysis іске қосылды!"
-        };
-    }
+ name:"MATCHVISION",
+ version:"1.1",
+ status:"active"
 };
+
+function openPanel(id){
+ closePanels();
+ document.getElementById(id).classList.add("active");
+ document.getElementById(id).scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function closePanels(){
+ document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+}
+
+function showResult(id,html){
+ const el=document.getElementById(id);
+ el.innerHTML=html;
+ el.classList.add("show");
+}
+
+function analyzeMatch(){
+ const home=document.getElementById("homeTeam").value.trim();
+ const away=document.getElementById("awayTeam").value.trim();
+ const hw=Number(document.getElementById("homeWins").value);
+ const aw=Number(document.getElementById("awayWins").value);
+
+ if(!home||!away||home.toLowerCase()===away.toLowerCase()){
+ alert("Екі түрлі команданың атауын енгіз.");
+ return;
+ }
+ if(!Number.isInteger(hw)||!Number.isInteger(aw)||hw<0||hw>5||aw<0||aw>5){
+ alert("Жеңіс санын 0 мен 5 аралығында енгіз.");
+ return;
+ }
+
+ let message=hw>aw
+ ? home+" соңғы бес матчтағы жеңіс саны бойынша алда."
+ : aw>hw
+ ? away+" соңғы бес матчтағы жеңіс саны бойынша алда."
+ : "Екі команданың жеңіс саны тең.";
+
+ showResult("superResult",
+ "<strong>"+home+" — "+away+"</strong><br><br>"+
+ "🏠 "+home+": "+hw+"/5 жеңіс<br>"+
+ "✈️ "+away+": "+aw+"/5 жеңіс<br><br>"+
+ "📊 <strong>Бастапқы талдау:</strong> "+message+
+ "<br><br>Бұл тек енгізілген бір көрсеткішке негізделген. Нақты матч ықтималдығы емес.");
+}
+
+function calculateStats(){
+ const team=document.getElementById("statTeam").value.trim()||"Команда";
+ const xg=Number(document.getElementById("xg").value);
+ const xga=Number(document.getElementById("xga").value);
+ const pos=Number(document.getElementById("possession").value);
+ const shots=Number(document.getElementById("shots").value);
+
+ if(![xg,xga,pos,shots].every(Number.isFinite)||xg<0||xga<0||pos<0||pos>100||shots<0){
+ alert("Статистика мәндерін дұрыс енгіз.");
+ return;
+ }
+
+ const balance=xg-xga;
+ showResult("statsResult",
+ "<strong>"+team+" статистикасы</strong>"+
+ '<div class="stat-grid">'+
+ '<div class="stat">xG<strong>'+xg.toFixed(2)+'</strong></div>'+
+ '<div class="stat">xGA<strong>'+xga.toFixed(2)+'</strong></div>'+
+ '<div class="stat">Доп иелену<strong>'+pos+'%</strong></div>'+
+ '<div class="stat">Соққылар<strong>'+shots+'</strong></div>'+
+ '</div><br>📊 xG - xGA айырмасы: <strong>'+balance.toFixed(2)+'</strong>'+
+ "<br>"+(balance>0?"Күтілетін гол көрсеткіші жіберілетін гол көрсеткішінен жоғары.":balance<0?"Күтілетін жіберілген гол көрсеткіші жоғары.":"Көрсеткіштер тең."));
+}
+
+function analyzeLive(){
+ const h=Number(document.getElementById("liveHome").value);
+ const a=Number(document.getElementById("liveAway").value);
+ const m=Number(document.getElementById("minute").value);
+ const hs=Number(document.getElementById("liveShots").value);
+ const as=Number(document.getElementById("awayShots").value);
+
+ if(![h,a,m,hs,as].every(Number.isInteger)||h<0||a<0||m<0||m>120||hs<0||as<0){
+ alert("Матч көрсеткіштерін дұрыс енгіз.");
+ return;
+ }
+
+ let score=h>a?"Үй командасы алда.":a>h?"Қонақ командасы алда.":"Есеп тең.";
+ let pressure=hs>as?"Үй командасының соққы саны көп.":as>hs?"Қонақ командасының соққы саны көп.":"Соққы саны тең.";
+
+ showResult("liveResult",
+ "<strong>Матч жағдайы</strong><br><br>"+
+ "⚽ Есеп: "+h+" : "+a+
+ "<br>⏱ Минут: "+m+
+ "<br>🥅 Соққылар: "+hs+" : "+as+
+ "<br><br>📊 "+score+
+ "<br>⚡ "+pressure+
+ "<br><br><span class='muted'>Бұл қолмен енгізілген статистиканың сипаттамасы, тікелей эфир дерегі емес.</span>");
+}
+
+function calculateAccuracy(){
+ const total=Number(document.getElementById("totalPredictions").value);
+ const correct=Number(document.getElementById("correctPredictions").value);
+
+ if(!Number.isInteger(total)||!Number.isInteger(correct)||total<1||correct<0||correct>total){
+ alert("Деректерді дұрыс енгіз. Дұрыс болжам саны жалпы саннан аспауы керек.");
+ return;
+ }
+
+ const percent=correct/total*100;
+ showResult("accuracyResult",
+ "<strong>Болжам дәлдігі</strong>"+
+ '<div class="value" style="margin:15px 0">'+percent.toFixed(1)+'%</div>'+
+ "Жалпы болжам: "+total+
+ "<br>Дұрыс болжам: "+correct+
+ "<br>Қате болжам: "+(total-correct)+
+ "<br><br>Бұл көрсеткіш енгізілген деректер негізінде есептелді.");
+}
 </script>
+
 </body>
 </html>
